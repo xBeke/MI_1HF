@@ -1,0 +1,13 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../../:\Users\ambru\IdeaProjects\MI_HF_1\.idea/dataSources/
+/dataSources.local.xml
+/modules.xml
+/misc.xml
+/vcs.xml
+/../*iml
+/../*.class
+# Editor-based HTTP Client requests
+/httpRequests/
