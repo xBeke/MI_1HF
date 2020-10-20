@@ -1,5 +1,3 @@
-import com.sun.jdi.ArrayReference;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,7 +10,7 @@ public class Repository {
     public int numberOfBoxes;
     public int numberOfPoles;
 
-    public Repository(int height, int width, int[][] boxes) {
+    public Repository(int height, int width) {
         this.height = height;
         this.width = width;
         this.boxes = new int[height][width];
