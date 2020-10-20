@@ -1,5 +1,24 @@
 public class Main {
     public static void main(String[] args){
-        System.out.println("Hello world");
+        getInputs();
+        orderBoxesByArea();
+        placeBoxes();
+        writeBoxesToConsole();
+    }
+
+    public static void getInputs(){
+
+    }
+
+    public static void orderBoxesByArea(){
+
+    }
+
+    public static void placeBoxes(){
+
+    }
+
+    public static void writeBoxesToConsole(){
+
     }
 }
