@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
@@ -87,16 +86,44 @@ public class Main {
     }
 
     public static void placeBoxes(Repository repo){
-        if (isBoxPlaceableThere(repo, repo.boxInputBuffer.get(0), new Point(1,1))){
-            placeBox(repo, repo.boxInputBuffer.get(0), new Point(1,1));
+        findPlaceForBox(repo, 0);
+    }
+
+    public static boolean findPlaceForBox(Repository repo, int boxIndex){
+        writeBoxesToConsole(repo);
+        for (int i = 1 ; i <= repo.dimensions.x; i++){
+            for(int j = 1 ; j <= repo.dimensions.y; j++){
+                if(placeBoxIfPlaceable(repo, repo.boxInputBuffer.get(boxIndex), new Point(i,j))){
+                   if (boxIndex == repo.numberOfBoxes - 1) return true;
+                   if (findPlaceForBox(repo, boxIndex+1)) return true;
+                }
+            }
         }
-        if (isBoxPlaceableThere(repo, repo.boxInputBuffer.get(1), new Point(6,1))){
-            placeBox(repo, repo.boxInputBuffer.get(1), new Point(6,1));
+        repo.boxInputBuffer.get(boxIndex).turn();
+        for (int i = 1 ; i <= repo.dimensions.x; i++){
+            for(int j = 1 ; j <= repo.dimensions.y; j++){
+                if(placeBoxIfPlaceable(repo, repo.boxInputBuffer.get(boxIndex), new Point(i,j))){
+                    if (boxIndex == repo.numberOfBoxes - 1) return true;
+                    if (findPlaceForBox(repo, boxIndex+1)) return true;
+                }
+            }
         }
+        return false;
+    }
+
+    public static boolean placeBoxIfPlaceable(Repository repo, Box box, Point point){
+        if (isBoxPlaceableThere(repo, box, point)){
+            placeBox(repo,box, point);
+            return true;
+        }
+        return false;
     }
 
     public static boolean isBoxPlaceableThere(Repository repo, Box box, Point point){
-        return checkOtherBoxes(repo, box, point) && checkPoles(repo, box, point);
+        if (checkIfBoxIsInTheMap(repo,box,point)){
+            return (checkOtherBoxes(repo, box, point) && checkPoles(repo, box, point));
+        }
+        return false;
     }
 
     private static boolean checkPoles(Repository repo, Box box, Point point) {
@@ -112,19 +139,24 @@ public class Main {
         return true;
     }
 
+    public static boolean checkIfBoxIsInTheMap(Repository repo, Box box, Point point){
+        if (box.height + point.x-1 > repo.dimensions.x || box.width + point.y-1 > repo.dimensions.y)return false;
+        return true;
+    }
+
     public static boolean checkOtherBoxes(Repository repo, Box box, Point point){
-            for (int i = point.y-1 ; i < point.y-1 + box.height ; i++){
-                for(int j = point.x-1 ; j < point.x-1 + box.width ; j++){
-                    if (repo.boxes[i][j] != 0) return false;
+            for (int i = point.y-1 ; i < point.y-1 + box.width ; i++){
+                for(int j = point.x-1 ; j < point.x-1 + box.height ; j++){
+                    if (repo.boxes[j][i] != 0) return false;
                 }
             }
         return true;
     }
 
     public static void placeBox(Repository repo, Box box, Point point){
-        for (int i = point.y-1 ; i < point.y-1 + box.height ; i++){
-            for(int j = point.x-1 ; j < point.x-1 + box.width ; j++){
-                repo.boxes[i][j] = box.id;
+        for (int i = point.y-1 ; i < point.y-1 + box.width ; i++){
+            for(int j = point.x-1 ; j < point.x-1 + box.height ; j++){
+                repo.boxes[j][i] = box.id;
             }
         }
     }
@@ -137,6 +169,7 @@ public class Main {
             }
             System.out.print("\n");
         }
+        System.out.print("\n");
     }
 
     public static void testRepo(Repository repo){
