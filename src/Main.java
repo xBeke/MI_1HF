@@ -1,21 +1,38 @@
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
-    public static Scanner consoleScanner = new Scanner(System.in);
+    public static File file = new File("C:/mi/test.txt");
+    // public static Scanner consoleScanner = new Scanner(System.in);
+    public static Scanner consoleScanner;
+
+    static {
+        try {
+            consoleScanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         Repository repo = new Repository();
         getInputs(repo);
+        repo.calculateDimensionsOfBoxes();
         orderBoxesByArea(repo);
+        setBoxIds(repo);
         testRepo(repo);
-        placeBoxes();
-        writeBoxesToConsole();
+        placeBoxes(repo);
+        // writeBoxesToConsole(repo);
+    }
+
+    private static void setBoxIds(Repository repo) {
+        for (int i = 1 ; i < repo.numberOfBoxes ; i++){
+            repo.boxInputBuffer.get(i).id = i;
+        }
     }
 
     public static void getInputs(Repository repo) throws IOException {
@@ -76,12 +93,17 @@ public class Main {
         repo.boxInputBuffer.sort(Comparator.comparingInt(Box::getArea).reversed());
     }
 
-    public static void placeBoxes(){
+    public static void placeBoxes(Repository repo){
 
     }
 
-    public static void writeBoxesToConsole(){
-
+    public static void writeBoxesToConsole(Repository repo){
+        for(int i = 0 ; i < repo.dimensions.x ; i++){
+            for ( int j = 0 ; j < repo.dimensions.y; j++){
+                System.out.print(repo.boxes[i][j] + " ");
+            }
+            System.out.print("\n");
+        }
     }
 
     public static void testRepo(Repository repo){

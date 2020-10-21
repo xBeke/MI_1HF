@@ -6,7 +6,7 @@ public class Repository {
     public Point dimensions = new Point();
     public ArrayList<Pole> poles = new ArrayList<Pole>();
     public ArrayList<Box> boxInputBuffer = new ArrayList<Box>();
-    public int [][] boxes;
+    public int[][] boxes;
     public int numberOfBoxes;
     public int numberOfPoles;
 
@@ -28,8 +28,9 @@ public class Repository {
     public boolean calculateDimensionsOfBoxes(){
         if (dimensions.x == 0 || dimensions.y == 0) return false;
         else{
-            this.boxes = new int[dimensions.x][dimensions.y];
-            Arrays.fill(this.boxes, 0);
+            this.boxes = new int[5][7];
+            for (int[] row: this.boxes)
+                Arrays.fill(row, 0);
             return true;
         }
     }
