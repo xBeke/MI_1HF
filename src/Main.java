@@ -18,24 +18,17 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Repository repo = new Repository();
         getInputs(repo);
         repo.calculateDimensionsOfBoxes();
         orderBoxesByArea(repo);
-        setBoxIds(repo);
         testRepo(repo);
         placeBoxes(repo);
-        // writeBoxesToConsole(repo);
+        writeBoxesToConsole(repo);
     }
 
-    private static void setBoxIds(Repository repo) {
-        for (int i = 1 ; i < repo.numberOfBoxes ; i++){
-            repo.boxInputBuffer.get(i).id = i;
-        }
-    }
-
-    public static void getInputs(Repository repo) throws IOException {
+    public static void getInputs(Repository repo) {
         repo.dimensions = getDimensions();
         repo.numberOfPoles = getNumberOfPoles();
         repo.numberOfBoxes = getNumberOfBoxes();
@@ -71,7 +64,7 @@ public class Main {
         return getOneNumber();
     }
 
-    private static Point getDimensions() throws IOException {
+    private static Point getDimensions() {
         return getTwoNumber();
     }
 
@@ -94,13 +87,53 @@ public class Main {
     }
 
     public static void placeBoxes(Repository repo){
+        if (isBoxPlaceableThere(repo, repo.boxInputBuffer.get(0), new Point(1,1))){
+            placeBox(repo, repo.boxInputBuffer.get(0), new Point(1,1));
+        }
+        if (isBoxPlaceableThere(repo, repo.boxInputBuffer.get(1), new Point(6,1))){
+            placeBox(repo, repo.boxInputBuffer.get(1), new Point(6,1));
+        }
+    }
 
+    public static boolean isBoxPlaceableThere(Repository repo, Box box, Point point){
+        return checkOtherBoxes(repo, box, point) && checkPoles(repo, box, point);
+    }
+
+    private static boolean checkPoles(Repository repo, Box box, Point point) {
+        for (int i = point.y ; i < point.y-1 + box.height ; i++){
+            for(int j = point.x ; j < point.x-1 + box.width ; j++){
+                for (int k = 0 ; k < repo.numberOfPoles ; k++){
+                    if (repo.poles.get(k).x == i && repo.poles.get(k).y == j){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkOtherBoxes(Repository repo, Box box, Point point){
+            for (int i = point.y-1 ; i < point.y-1 + box.height ; i++){
+                for(int j = point.x-1 ; j < point.x-1 + box.width ; j++){
+                    if (repo.boxes[i][j] != 0) return false;
+                }
+            }
+        return true;
+    }
+
+    public static void placeBox(Repository repo, Box box, Point point){
+        for (int i = point.y-1 ; i < point.y-1 + box.height ; i++){
+            for(int j = point.x-1 ; j < point.x-1 + box.width ; j++){
+                repo.boxes[i][j] = box.id;
+            }
+        }
     }
 
     public static void writeBoxesToConsole(Repository repo){
         for(int i = 0 ; i < repo.dimensions.x ; i++){
             for ( int j = 0 ; j < repo.dimensions.y; j++){
-                System.out.print(repo.boxes[i][j] + " ");
+                System.out.print(repo.boxes[i][j]);
+                if (j < repo.dimensions.y-1)System.out.print("\t");
             }
             System.out.print("\n");
         }
