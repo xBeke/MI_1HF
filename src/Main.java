@@ -5,24 +5,24 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
-    public static File file = new File("C:/mi/test.txt");
-    // public static Scanner consoleScanner = new Scanner(System.in);
-    public static Scanner consoleScanner;
-
-    static {
-        try {
-            consoleScanner = new Scanner(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+    //public static File file = new File("C:/mi/test.txt");
+    public static Scanner consoleScanner = new Scanner(System.in);
+//    public static Scanner consoleScanner;
+//
+//    static {
+//        try {
+//            consoleScanner = new Scanner(file);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void main(String[] args) {
         Repository repo = new Repository();
         getInputs(repo);
         repo.calculateDimensionsOfBoxes();
         orderBoxesByArea(repo);
-        testRepo(repo);
+        // testRepo(repo);
         placeBoxes(repo);
         writeBoxesToConsole(repo);
     }
@@ -90,7 +90,6 @@ public class Main {
     }
 
     public static boolean findPlaceForBox(Repository repo, int boxIndex){
-        writeBoxesToConsole(repo);
         for (int i = 1 ; i <= repo.dimensions.x; i++){
             for(int j = 1 ; j <= repo.dimensions.y; j++){
                 if(placeBoxIfPlaceable(repo, repo.boxInputBuffer.get(boxIndex), new Point(i,j))){
@@ -127,10 +126,10 @@ public class Main {
     }
 
     private static boolean checkPoles(Repository repo, Box box, Point point) {
-        for (int i = point.y ; i < point.y-1 + box.height ; i++){
-            for(int j = point.x ; j < point.x-1 + box.width ; j++){
+        for (int i = point.y ; i < point.y-1 + box.width ; i++){
+            for(int j = point.x ; j < point.x-1 + box.height ; j++){
                 for (int k = 0 ; k < repo.numberOfPoles ; k++){
-                    if (repo.poles.get(k).x == i && repo.poles.get(k).y == j){
+                    if (repo.poles.get(k).x == j && repo.poles.get(k).y == i){
                         return false;
                     }
                 }

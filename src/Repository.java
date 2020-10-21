@@ -28,7 +28,7 @@ public class Repository {
     public boolean calculateDimensionsOfBoxes(){
         if (dimensions.x == 0 || dimensions.y == 0) return false;
         else{
-            this.boxes = new int[5][7];
+            this.boxes = new int[dimensions.x][dimensions.y];
             for (int[] row: this.boxes)
                 Arrays.fill(row, 0);
             return true;
