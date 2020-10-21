@@ -1,12 +1,13 @@
 public class Main {
     public static void main(String[] args){
-        getInputs();
+        Repository repo = new Repository();
+        getInputs(repo);
         orderBoxesByArea();
         placeBoxes();
         writeBoxesToConsole();
     }
 
-    public static void getInputs(){
+    public static void getInputs(Repository repo){
 
     }
 

@@ -10,9 +10,9 @@ public class Repository {
     public int numberOfBoxes;
     public int numberOfPoles;
 
-    public Repository(int height, int width) {
-        this.height = height;
-        this.width = width;
+    public Repository() {
+        this.height = 0;
+        this.width = 0;
         this.boxes = new int[height][width];
         Arrays.fill(this.boxes, 0);
         this.numberOfBoxes = 0;
@@ -25,5 +25,13 @@ public class Repository {
 
     public void addPole(int x, int y){
         poles.add(new Pole(x ,y));
+    }
+
+    public boolean calculateDimensionsOfBoxes(){
+        if (height == 0 || width == 0) return false;
+        else{
+            this.boxes = new int[height][width];
+            return true;
+        }
     }
 }
