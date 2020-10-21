@@ -1,9 +1,9 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Repository {
-    public int height;
-    public int width;
+    public Point dimensions = new Point();
     public ArrayList<Pole> poles = new ArrayList<Pole>();
     public ArrayList<Box> boxInputBuffer = new ArrayList<Box>();
     public int [][] boxes;
@@ -11,10 +11,8 @@ public class Repository {
     public int numberOfPoles;
 
     public Repository() {
-        this.height = 0;
-        this.width = 0;
-        this.boxes = new int[height][width];
-        Arrays.fill(this.boxes, 0);
+        this.dimensions.x = 0;
+        this.dimensions.y = 0;
         this.numberOfBoxes = 0;
         this.numberOfPoles = 0;
     }
@@ -28,9 +26,10 @@ public class Repository {
     }
 
     public boolean calculateDimensionsOfBoxes(){
-        if (height == 0 || width == 0) return false;
+        if (dimensions.x == 0 || dimensions.y == 0) return false;
         else{
-            this.boxes = new int[height][width];
+            this.boxes = new int[dimensions.x][dimensions.y];
+            Arrays.fill(this.boxes, 0);
             return true;
         }
     }
